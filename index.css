@@ -1,0 +1,13 @@
+
+
+body {
+	line-height: 1.5;
+	font-family: sans-serif;
+}
+
+#entry {
+	align: center;
+	width: 280px;
+	padding: 10px;
+	border: 1px dotted black;
+}
