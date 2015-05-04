@@ -1,0 +1,9 @@
+body {
+  line-height: 1.5;
+  font-family: "Helvetica", sans-serif;
+}
+
+input {
+  position: absolute;
+  left: 100px;
+}

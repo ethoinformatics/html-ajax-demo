@@ -13,6 +13,9 @@ function setup() {
   for (var b=0; b< buttons.length; b++) {
     buttons[b].addEventListener('click', contactServer, false);
   }
+
+  //  generate a record ID:
+  document.getElementById('uuid').value = generateUuid();
 }
 
 // this function updates the date/time field  once a second:
@@ -21,15 +24,31 @@ function clock() {
   dateField.value = new Date();
 }
 
+function generateUuid() {
+  var username = document.getElementById('username').value;
+  var uuid = new Date().valueOf();
+
+  for (var c=0; c< username.length; c++) {
+    uuid += (username.charCodeAt(c));
+  }
+   uuid = uuid * (Math.PI * Math.random(1000000));
+   uuid = Math.floor(uuid);
+   return uuid;
+}
+
 // this function contacts the server:
 function contactServer() {
   // get the method from the button clicked:
   var method = event.target.innerHTML;
 
-  // get the record _id and name from the UI fields:
-  record._id = document.getElementById('uuid').value;
-  record._rev = document.getElementById('rev').value;
-  record.name = document.getElementById('username').value;
+  // get the record _id and name from the UI field:
+  var id = document.getElementById('uuid').value;
+  var rev = document.getElementById('rev').value;
+  var username = document.getElementById('username').value;
+
+  if (id) record._id = id;
+  if (rev) record._rev = rev;
+  if (name) record.name = name;
 
   // set up the basic HTTP parameters:
   var params = {
