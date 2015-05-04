@@ -48,7 +48,7 @@ function contactServer() {
 
   if (id) record._id = id;
   if (rev) record._rev = rev;
-  if (name) record.name = name;
+  if (username) record.name = username;
 
   // set up the basic HTTP parameters:
   var params = {
