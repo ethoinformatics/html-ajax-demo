@@ -14,8 +14,8 @@ function setup() {
     buttons[b].addEventListener('click', contactServer, false);
   }
 
-  //  generate a record ID:
-  document.getElementById('uuid').value = generateUuid();
+  //  get a unique ID from the database:
+  $.get('http://demo.ethoinformatics.org:5984/_uuids', setUuid);
 }
 
 // this function updates the date/time field  once a second:
@@ -24,18 +24,11 @@ function clock() {
   dateField.value = new Date();
 }
 
-function generateUuid() {
-  var username = document.getElementById('username').value;
-  var uuid = new Date().valueOf();
-
-  for (var c=0; c< username.length; c++) {
-    uuid += (username.charCodeAt(c));
-  }
-   uuid = uuid * (Math.PI * Math.random(1000000));
-   uuid = Math.floor(uuid);
-   return uuid;
+function setUuid(data) {
+  var response = JSON.parse(data);
+  var uuid = response.uuids[0];
+  document.getElementById('uuid').value = uuid;
 }
-
 // this function contacts the server:
 function contactServer() {
   // get the method from the button clicked:
