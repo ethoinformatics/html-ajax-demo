@@ -33,16 +33,16 @@ function getRecordList() {
 // this function takes the reply from the request
 // for the document list and saves the relevant IDs in a list:
 function saveRecordList(data) {
-  var recordCount = data.rows.length;   // number of records
+  var recordCount = data.rows.length; // number of records
 
-  for (var i=0; i<recordCount; i++) {   // iterate over the records
-    var thisId = data.rows[i].id;       // get the ID of each record
-    if (thisId.match(/AV/)) {           // if it contains "AV",
-      records.push(thisId);             // add it to the records array
+  for (var i=0; i<recordCount; i++) { // iterate over the records
+    var thisId = data.rows[i].id;     // get the ID of each record
+    if (thisId.match(/AV/)) {         // if it contains "AV",
+      records.push(thisId);           // add it to the records array
     }
   }
-  currentRecord = 0;                    // reset current record index
-  getRecord(currentRecord);             // show the first record
+  currentRecord = 0;                  // reset current record index
+  getRecord(currentRecord);           // show the first record
 }
 
 // event handlers for previous and next buttons:
@@ -69,14 +69,12 @@ function getRecord(recordNum) {
 // this function displays the result of the request
 // for an individual record:
 function display(data) {
-  // get the fields div:
-  var entry = document.getElementById('fields');
-  // and get its child elements:
-  var fields = entry.getElementsByTagName('*');
-  // you'll use these variables later:
-  var f, thisChild, property, thisEntry;
+  var entry = document.getElementById('fields');    // get the fields div
+  var fields = entry.getElementsByTagName('*');     // and get its child elements
+  var thisChild, property, thisEntry;
+
   // Fill the fields by iterating over the children of the fields div:
-  for (f = 0; f < fields.length; f++) {
+  for (var f = 0; f < fields.length; f++) {
     thisField = fields[f];               // get the current field
     property = thisField.id;             // the field id is the property you want
     if (data[property]) {                // if it has a value,

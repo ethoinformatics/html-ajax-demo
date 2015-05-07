@@ -46,9 +46,15 @@ function contactServer() {
   // convert the data to a string for sending:
   data = JSON.stringify(record);
 
-  if (method === 'UUID') {
+  if (method === 'Generate uuid') {
     //  get a unique ID from the database:
     params.url = 'http://demo.ethoinformatics.org:5984/_uuids';
+    params.type = 'GET';
+  }
+
+  if (method === 'Record list') {
+    //  get the list of all record IDs from the database:
+    params.url += '/_all_docs';
     params.type = 'GET';
   }
 
