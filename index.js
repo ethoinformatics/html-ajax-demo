@@ -9,9 +9,6 @@ var currentRecord = 0; // record you're currently looking at
 // this function is called when the HTML is loaded.
 // it sets the behaviors for all the UI elements:
 function setup() {
-  // get the URL:
-  url = document.getElementById('db').value;
-
   // get all the UI buttons:
   previousButton = document.getElementById('previous');
   nextButton = document.getElementById('next');
@@ -25,6 +22,9 @@ function setup() {
 
 // this function is called to request an the document list from the database:
 function getRecordList() {
+  // get the URL:
+  url = document.getElementById('db').value;
+
   // get the records from the database using jquery ($)
   // When you do, run saveRecordList():
   $.get(url + '_all_docs', saveRecordList, 'json');
@@ -62,6 +62,9 @@ function nextRecord() {
 
 // this function requests an indovidual record from the
 function getRecord(recordNum) {
+  // get the URL:
+  url = document.getElementById('db').value;
+
   var thisEntry = records[recordNum];       // get the ID of the entry you want
   $.get(url + thisEntry, display, 'json');  // make the HTTP call for the record
 }
@@ -73,6 +76,14 @@ function display(data) {
   var fields = entry.getElementsByTagName('*');     // and get its child elements
   var thisChild, property, thisEntry;
 
+// if there's a data.footprint property, assume it's geoJSON and
+// add it to the map:
+if (data.footprint) {
+  console.log(data.footprint);
+  if (typeof L !== 'undefined' && typeof map !== 'undefined') {
+      L.geoJson(data.footprint).addTo(map);
+    }
+}
   // Fill the fields by iterating over the children of the fields div:
   for (var f = 0; f < fields.length; f++) {
     thisField = fields[f];               // get the current field
