@@ -7,7 +7,27 @@ body {
 
 #entry {
 	align: center;
-	width: 280px;
+	width: 400px;
 	padding: 10px;
-	border: 1px dotted black;
+}
+
+input {
+	position: absolute;
+	left: 80px;
+	width: 320px;
+}
+
+#eventRemarks {
+	position: relative;
+	left: 20px;
+	width: 380px;
+	height: 400px;
+}
+
+#map {
+	position: absolute;
+	left: 500px;
+	top: 10px;
+	width: 400px;
+	height: 300px;
 }

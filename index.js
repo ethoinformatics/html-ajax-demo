@@ -3,10 +3,10 @@
 var previousButton, nextButton, recordsButton;
 
 // the URL from which you're going to get data:
-var url = 'http://localhost:5984/diary/d2900ad0479be87cc96c8a9139000827';
+var url = 'http://demo.ethoinformatics.org:5984/pp_contacts';
 
-var dbDocument = null;    // the current diary document from the DB
-var recordCount = 0;      // record count of the current diary
+var database = null;    // the current diary document from the DB
+var records = [];      // record ids of the current database
 var currentRecord = 0;    // record you're currently looking at
 
 function setup() {
@@ -20,36 +20,52 @@ function setup() {
   nextButton.addEventListener('click', nextRecord, false);
 }
 
+
 function getRecords() {
-  // get the records from the dbDocument using jquery ($)
+  // get the records from the database using jquery ($)
   // When you do, run saveRecords():
-  $.get(url, saveRecords, 'json');
+  $.get(url + '/_all_docs/', saveRecords, 'json');
 }
 
 function saveRecords(data) {
-  dbDocument = data;        // save the results locally
-  recordCount = dbDocument.entries.length;
+//  database = data;        // save the results locally
+  var recordCount = data.rows.length;
+  for (var i=0; i<recordCount; i++) {
+    var thisId = data.rows[i].id;
+    if (thisId.match(/AV/)) {
+      records.push(thisId);
+    }
+  }
   currentRecord = 0;        // reset current record
-  display(currentRecord);   // show the first record
+  getRecord(currentRecord);   // show the first record
 }
 
 // event handlers for forward and back buttons:
 function prevRecord() {
   if (currentRecord >= 0) { // if the record index number is valid
     currentRecord--;        // decrement currentRecord
-    display(currentRecord); // display it
+    getRecord(currentRecord);
   }
 }
 
 function nextRecord() {
-  if (currentRecord < recordCount) { // if the record index number is valid
+  if (currentRecord < records.length) { // if the record index number is valid
     currentRecord++;                 // increment currentRecord
-    display(currentRecord);          // display it
+    getRecord(currentRecord);
   }
 }
 
+function getRecord(recordNum) {
+  var thisEntry = records[recordNum];  // get the current DB entry
+  $.get(url + '/' + thisEntry, display, 'json');
+}
 
-function display(recordNum) {
+function display(data) {
+  console.log(data.footprint);
+  var geojsonFeature = data.footprint;
+  console.log(geojsonFeature);
+  L.geoJson(geojsonFeature).addTo(map);
+
   // get the entry element:
   var thisRecord = document.getElementById('entry');
   // and get its child elements:
@@ -58,10 +74,9 @@ function display(recordNum) {
   var c, thisChild, datum, thisEntry;
   //Fill the fields by iterating over the children of the entry element:
   for (c = 0; c < children.length; c++) {
-    thisEntry = dbDocument.entries[recordNum];  // get the current DB entry
     thisChild = children[c];                  // get the current child
     datum = thisChild.id;                     // the id is the db datum name
-    thisChild.value = thisEntry[datum];       // fill in the data from the db
+    thisChild.value = data[datum];       // fill in the data from the db
   }
 
 }

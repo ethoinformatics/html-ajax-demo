@@ -1,26 +1,38 @@
 <html>
   <head>
-     <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js">
-     </script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js">
+    </script>
     <script type="text/javascript" src="couch.js"></script>
     <link rel="stylesheet" href="couch.css" charset="utf-8">
-    <title></title>
+  <title>Contacts</title>
   </head>
   <body>
-    Name: <input type="text" id="username"><br>
-    Date: <input type="text" id="date" size="40"><br>
-    Record ID: <input type="text" id="uuid" size="40"><br>
-    Revision: <input type="text" id="rev" size="40"><br>
-    <div id="buttonDiv">
-      <button type="button" name="getButton">GET</button>
-      <button type="button" name="putButton">PUT</button>
-      <button type="button" name="postButton">POST</button>
-      <button type="button" name="button">DELETE</button>
+    <div class="fields">
+      <label for="database">Database</label>
+      <input id="database" type="text" value="http://demo.ethoinformatics.org:5984/mike_demo"><br>
+      <label for="username">Name: </label>
+      <input type="text" id="username" ><br>
+      <label for="date">Date: </label>
+      <input type="text" id="date" ><br>
+      <label for="uuid">  Record ID: </label>
+      <input type="text" id="uuid"><br>
+      <label for="rev">  Revision: </label>
+      <input type="text" id="rev"><br>
+    </div>
+    <div class="verbs">
+      <button type="button" name="getuuid" class="getUuid">UUID</button>
+      <button type="button" name="get" class="get">GET</button>
+      <button type="button" name="put" class="put">PUT</button>
+      <button type="button" name="post" class="post">POST</button>
+      <button type="button" name="delete" class="delete">DELETE</button>
+    </div>
+    Results:
+    <div>
+    	<textarea id="result"></textarea>
     </div>
 
-
     <script type="text/javascript">
-      setup();
+    setup();
     </script>
   </body>
 </html>
