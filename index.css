@@ -19,3 +19,11 @@ input {
 	width: 410px;
 	height: 300px;
 }
+
+#map {
+	position: absolute;
+	left: 500px;
+	top: 10px;
+	width: 400px;
+	height: 300px;
+}
