@@ -2,84 +2,87 @@
 // variables for the UI elements:
 var previousButton, nextButton, recordsButton;
 
-// the URL from which you're going to get data:
-var url = 'http://demo.ethoinformatics.org:5984/pp_contacts';
-
-var database = null;    // the current diary document from the DB
+var url;               // the URL from which you're going to get data
 var records = [];      // record ids of the current database
-var currentRecord = 0;    // record you're currently looking at
+var currentRecord = 0; // record you're currently looking at
 
+// this function is called when the HTML is loaded.
+// it sets the behaviors for all the UI elements:
 function setup() {
+  // get the URL:
+  url = document.getElementById('db').value;
+
   // get all the UI buttons:
   previousButton = document.getElementById('previous');
   nextButton = document.getElementById('next');
   recordsButton = document.getElementById('getRecords');
+
   // set event listeners for the buttons:
-  recordsButton.addEventListener('click', getRecords, false);
+  recordsButton.addEventListener('click', getRecordList, false);
   previousButton.addEventListener('click', prevRecord, false);
   nextButton.addEventListener('click', nextRecord, false);
 }
 
-
-function getRecords() {
+// this function is called to request an the document list from the database:
+function getRecordList() {
   // get the records from the database using jquery ($)
-  // When you do, run saveRecords():
-  $.get(url + '/_all_docs/', saveRecords, 'json');
+  // When you do, run saveRecordList():
+  $.get(url + '_all_docs', saveRecordList, 'json');
 }
 
-function saveRecords(data) {
-  var recordCount = data.rows.length;
-  for (var i=0; i<recordCount; i++) {
-    var thisId = data.rows[i].id;
-    if (thisId.match(/AV/)) {
-      records.push(thisId);
+// this function takes the reply from the request
+// for the document list and saves the relevant IDs in a list:
+function saveRecordList(data) {
+  var recordCount = data.rows.length;   // number of records
+
+  for (var i=0; i<recordCount; i++) {   // iterate over the records
+    var thisId = data.rows[i].id;       // get the ID of each record
+    if (thisId.match(/AV/)) {           // if it contains "AV",
+      records.push(thisId);             // add it to the records array
     }
   }
-  currentRecord = 0;        // reset current record
-  getRecord(currentRecord);   // show the first record
+  currentRecord = 0;                    // reset current record index
+  getRecord(currentRecord);             // show the first record
 }
 
-// event handlers for forward and back buttons:
+// event handlers for previous and next buttons:
 function prevRecord() {
-  if (currentRecord >= 0) { // if the record index number is valid
-    currentRecord--;        // decrement currentRecord
-    getRecord(currentRecord);
+  if (currentRecord >= 0) {   // if the record index number is valid
+    currentRecord--;          // decrement currentRecord
+    getRecord(currentRecord); // get the current record from the DB
   }
 }
 
 function nextRecord() {
   if (currentRecord < records.length) { // if the record index number is valid
-    currentRecord++;                 // increment currentRecord
-    getRecord(currentRecord);
+    currentRecord++;                    // increment currentRecord
+    getRecord(currentRecord);           // get the current record from the DB
   }
 }
 
+// this function requests an indovidual record from the
 function getRecord(recordNum) {
-  var thisEntry = records[recordNum];  // get the current DB entry
-  $.get(url + '/' + thisEntry, display, 'json');
+  var thisEntry = records[recordNum];       // get the ID of the entry you want
+  $.get(url + thisEntry, display, 'json');  // make the HTTP call for the record
 }
 
+// this function displays the result of the request
+// for an individual record:
 function display(data) {
-//   //console.log(data.footprint);
-//    var geojsonFeature = data.footprint;
-//
-// // TODO: Fix tony's GeoJSON to get it to work.
-// if (typeof geojsonFeature === 'object' ) {
-//   console.log(geojsonFeature);
-//   L.geoJson(geojsonFeature).addTo(map);
-// }
-
-  // get the entry element:
-  var thisRecord = document.getElementById('entry');
+  // get the fields div:
+  var entry = document.getElementById('fields');
   // and get its child elements:
-  var children = thisRecord.getElementsByTagName('*');
+  var fields = entry.getElementsByTagName('*');
   // you'll use these variables later:
-  var c, thisChild, datum, thisEntry;
-  //Fill the fields by iterating over the children of the entry element:
-  for (c = 0; c < children.length; c++) {
-    thisChild = children[c];                  // get the current child
-    datum = thisChild.id;                     // the id is the db datum name
-    thisChild.value = data[datum];       // fill in the data from the db
+  var f, thisChild, property, thisEntry;
+  // Fill the fields by iterating over the children of the fields div:
+  for (f = 0; f < fields.length; f++) {
+    thisField = fields[f];               // get the current field
+    property = thisField.id;             // the field id is the property you want
+    if (data[property]) {                // if it has a value,
+      thisField.value = data[property];  // fill in the data from the db
+    }
   }
-
 }
+
+setup(); // once the page is loaded, set all the behaviors up

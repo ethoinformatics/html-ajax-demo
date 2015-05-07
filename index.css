@@ -1,33 +1,21 @@
 
 
 body {
-	line-height: 1.5;
+	line-height: 2.0;
 	font-family: sans-serif;
-}
-
-.entry {
-	align: center;
-	width: 400px;
-	padding: 10px;
 }
 
 input {
 	position: absolute;
+	width: 360px;
 	left: 80px;
-	width: 320px;
+	font-size: 10pt;
+	padding: 5px;
 }
 
 #eventRemarks {
 	position: relative;
 	left: 20px;
-	width: 380px;
-	height: 400px;
-}
-
-#map {
-	position: absolute;
-	left: 500px;
-	top: 10px;
-	width: 400px;
+	width: 410px;
 	height: 300px;
 }
