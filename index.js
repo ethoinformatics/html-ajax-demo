@@ -9,6 +9,7 @@ var database = null;    // the current diary document from the DB
 var records = [];      // record ids of the current database
 var currentRecord = 0;    // record you're currently looking at
 
+var foo;
 function setup() {
   // get all the UI buttons:
   previousButton = document.getElementById('previous');
@@ -61,10 +62,15 @@ function getRecord(recordNum) {
 }
 
 function display(data) {
-  console.log(data.footprint);
-  var geojsonFeature = data.footprint;
+  //console.log(data.footprint);
+   var geojsonFeature = data.footprint;
+
+// TODO: Fix tony's GeoJSON to get it to work.
+if (typeof geojsonFeature === 'object' ) {
   console.log(geojsonFeature);
   L.geoJson(geojsonFeature).addTo(map);
+}
+
 
   // get the entry element:
   var thisRecord = document.getElementById('entry');
@@ -76,7 +82,7 @@ function display(data) {
   for (c = 0; c < children.length; c++) {
     thisChild = children[c];                  // get the current child
     datum = thisChild.id;                     // the id is the db datum name
-    thisChild.value = data[datum];       // fill in the data from the db
+  //  thisChild.value = data[datum];       // fill in the data from the db
   }
 
 }
