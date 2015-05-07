@@ -54,6 +54,12 @@
 .verbs .delete {
   background-color: #a41e22;
 }
+.verbs .getUuid {
+  background-color: #176FE3;
+}
+.verbs .getRecords {
+  background-color: #24AAB0;
+}
 .url,
 .message {
   font-size: 20px;
