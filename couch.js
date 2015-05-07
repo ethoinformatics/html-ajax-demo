@@ -93,7 +93,7 @@ function failure(error) {
 // this function gets the request response:
 function success(data) {
   // put the returned data in the result field:
-  document.getElementById('result').value = JSON.stringify(data);
+  document.getElementById('result').value = JSON.stringify(data,false,2);
 
   // if the data contains an item called uuids,
   // then it's a uuid from the database. Put it in the uuid field:
