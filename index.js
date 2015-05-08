@@ -38,11 +38,11 @@ function saveRecordList(data) {
   for (var i=0; i<recordCount; i++) { // iterate over the records
     var thisId = data.rows[i].id;     // get the ID of each record
     if (thisId.match(/AV/)) {         // if it contains "AV",
-      records.push(thisId);           // add it to the records array
-    }
+    records.push(thisId);           // add it to the records array
   }
-  currentRecord = 0;                  // reset current record index
-  getRecord(currentRecord);           // show the first record
+}
+currentRecord = 0;                  // reset current record index
+getRecord(currentRecord);           // show the first record
 }
 
 // event handlers for previous and next buttons:
@@ -76,14 +76,16 @@ function display(data) {
   var fields = entry.getElementsByTagName('*');     // and get its child elements
   var thisChild, property, thisEntry;
 
-// if there's a data.footprint property, assume it's geoJSON and
-// add it to the map:
-if (data.footprint) {
-  console.log(data.footprint);
-  if (typeof L !== 'undefined' && typeof map !== 'undefined') {
+  // if there's a data.footprint property, assume it's geoJSON and
+  // add it to the map:
+  if (data.footprint) {
+    console.dir(data.footprint);
+    // make sure the map and the Leaflet object exist:
+    if (typeof L !== 'undefined' && typeof map !== 'undefined') {
+      // add the footprint to the map:
       L.geoJson(data.footprint).addTo(map);
     }
-}
+  }
   // Fill the fields by iterating over the children of the fields div:
   for (var f = 0; f < fields.length; f++) {
     thisField = fields[f];               // get the current field
