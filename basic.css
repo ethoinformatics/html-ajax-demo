@@ -1,0 +1,10 @@
+/*This is the style for the whole body of the document*/
+body {
+  font-family: Helvetica, sans-serif;
+  font-size: 14;
+  background: #dfdfdf;
+}
+/*This is the style for the div whose ID is 'fields'*/
+#fields {
+  color: #00a378;
+}
