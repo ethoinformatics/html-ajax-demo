@@ -1,0 +1,10 @@
+/*This is the style for the whole body of the document*/
+body {
+  font-family: Helvetica, sans-serif;
+  font-size: 18;
+  background: #dfdfdf;
+}
+
+#confidence {
+  width: 300px;
+}

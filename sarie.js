@@ -20,22 +20,27 @@ function judgeMe() {
   // and add to the message div accordingly:
   if (confidenceValue < 10) {
     messageDiv.innerHTML += "% You're really guessing, aren't you?";
+    messageDiv.style.color = '#FF0000';
   }
 
   if (confidenceValue >= 10 && confidenceValue < 30) {
     messageDiv.innerHTML += "% What are you basing that on?";
+    messageDiv.style.color = '#992200';
   }
 
   if (confidenceValue >= 30 && confidenceValue < 60) {
     messageDiv.innerHTML += "% There are probably data to support that...";
+    messageDiv.style.color = '#775500';
   }
 
-  if (confidenceValue >= 60 && confidenceValue < 99) {
+  if (confidenceValue >= 60 && confidenceValue <= 99) {
     messageDiv.innerHTML += "% That seems pretty solid...";
+    messageDiv.style.color = '#339900';
   }
 
-  if (confidenceValue === 100 ) {
+  if (confidenceValue > 99 ) {
     messageDiv.innerHTML += "% That's a fact, Jack.";
+    messageDiv.style.color = '#00FF00';
   }
 }
 
