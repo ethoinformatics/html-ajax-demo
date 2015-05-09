@@ -5,6 +5,7 @@ var previousButton, nextButton, recordsButton;
 var url;               // the URL from which you're going to get data
 var records = [];      // record ids of the current database
 var currentRecord = 0; // record you're currently looking at
+var lastLayer = null;   // the last layer added to the map
 
 // this function is called when the HTML is loaded.
 // it sets the behaviors for all the UI elements:
@@ -38,11 +39,14 @@ function saveRecordList(data) {
   for (var i=0; i<recordCount; i++) { // iterate over the records
     var thisId = data.rows[i].id;     // get the ID of each record
     if (thisId.match(/AV/)) {         // if it contains "AV",
-    records.push(thisId);           // add it to the records array
+    records.push(thisId);             // add it to the records array
   }
 }
-currentRecord = 0;                  // reset current record index
-getRecord(currentRecord);           // show the first record
+
+map.removeLayer(lastLayer);           // clear the map for the new database
+lastLayer = null;                     // clear the lastLayer variable
+currentRecord = 0;                    // reset current record index
+getRecord(currentRecord);             // show the first record
 }
 
 // event handlers for previous and next buttons:
@@ -78,12 +82,18 @@ function display(data) {
 
   // if there's a data.footprint property, assume it's geoJSON and
   // add it to the map:
-  if (data.footprint) {
-    console.dir(data.footprint);
-    // make sure the map and the Leaflet object exist:
-    if (typeof L !== 'undefined' && typeof map !== 'undefined') {
+  // make sure the map and the Leaflet object exist:
+  if (typeof L !== 'undefined' && typeof map !== 'undefined') {
+    console.log(lastLayer);
+    // if there's a layer from a previous record, remove it:
+    if (lastLayer !== null) {
+      map.removeLayer(lastLayer);
+    }
+
+    if (data.footprint) {
       // add the footprint to the map:
-      L.geoJson(data.footprint).addTo(map);
+      lastLayer = L.geoJson(data.footprint);
+      map.addLayer(lastLayer);
     }
   }
   // Fill the fields by iterating over the children of the fields div:
