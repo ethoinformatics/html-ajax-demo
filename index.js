@@ -43,8 +43,10 @@ function saveRecordList(data) {
   }
 }
 
-map.removeLayer(lastLayer);           // clear the map for the new database
-lastLayer = null;                     // clear the lastLayer variable
+if (map) {                            // If there is a map div
+  map.removeLayer(lastLayer);         // clear the map for the new database
+  lastLayer = null;                   // clear the lastLayer variable
+}
 currentRecord = 0;                    // reset current record index
 getRecord(currentRecord);             // show the first record
 }

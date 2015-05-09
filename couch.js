@@ -19,7 +19,7 @@ function clock() {
 }
 
 // this function contacts the server:
-function contactServer() {
+function contactServer(event) {
   // get the method from the button clicked:
   var method = event.target.innerHTML;
   var record = {};
